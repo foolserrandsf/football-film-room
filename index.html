@@ -327,7 +327,7 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);paddin
 <div class="syncrow"><p class="sync" id="syncNote">Loading your games…</p><button class="btn ghost small" type="button" id="syncBtn">Sync settings</button></div>
 <div class="syncpanel" id="syncPanel" hidden>
   <h3>Sync with GitHub</h3>
-  <p>Your games save as files in your repo <strong id="repoName">foolserrandsf/football-film-room</strong>, on its <code>data</code> branch. Each device needs a sync key once. Make one that can only touch this repo:</p>
+  <p>Your games, quiz answers and progress save as files in your repo <strong id="repoName">foolserrandsf/football-film-room</strong>, on its <code>data</code> branch. Each device needs a sync key once. Make one that can only touch this repo:</p>
   <ol>
     <li>Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a> (signed in to GitHub).</li>
     <li><strong>Token name:</strong> Film Room. <strong>Expiration:</strong> pick a date up to a year out.</li>
@@ -439,7 +439,30 @@ var QZ={
   {q:'Red zone. Which deep coverage matters less?',o:['Deep safety help','Man-to-man near the goal line'],a:0,w:'The field is short, so there\'s no "deep" to protect. Coverage gets tighter and routes get shorter.'}
  ]
 };
-var qstate=store.get('quiz',{});
+/* ---------- course progress (quiz answers, snap reads, stations done): synced with the games ---------- */
+var PROG=store.get('prog',null);
+if(!PROG||typeof PROG!=='object'){PROG={quiz:{},scen:{},done:{}};
+  [['quiz','quiz'],['scen','scen'],['done','done']].forEach(function(x){var old=store.get(x[1],{})||{};Object.keys(old).forEach(function(k){if(old[k]!=null)PROG[x[0]][k]={v:old[k],at:1}})});
+  store.set('prog',PROG)}
+['quiz','scen','done'].forEach(function(k){if(!PROG[k]||typeof PROG[k]!=='object')PROG[k]={}});
+var progDirty=!!store.get('progDirty',false), qEls={};
+function progVals(kind){var o={},m=PROG[kind];Object.keys(m).forEach(function(k){if(m[k]&&m[k].v!=null)o[k]=m[k].v});return o}
+function progSet(kind,key,val){PROG[kind][key]={v:val,at:Date.now()};store.set('prog',PROG);progDirty=true;store.set('progDirty',true);
+  if(typeof schedulePush==='function')schedulePush()}
+function mergeProg(rem){
+  var changed=false,ahead=false;if(!rem||typeof rem!=='object')rem={};
+  ['quiz','scen','done'].forEach(function(kind){var R=rem[kind]&&typeof rem[kind]==='object'?rem[kind]:{},L=PROG[kind];
+    Object.keys(R).forEach(function(k){var r=R[k];if(!r||typeof r!=='object')return;if(!L[k]||(+r.at||0)>(+L[k].at||0)){L[k]={v:r.v,at:+r.at||0};changed=true}});
+    Object.keys(L).forEach(function(k){if(!R[k]||(+L[k].at||0)>(+R[k].at||0))ahead=true})});
+  store.set('prog',PROG);if(ahead){progDirty=true;store.set('progDirty',true)}
+  if(changed)applyProg();return ahead}
+function applyProg(){
+  qstate=progVals('quiz');Object.keys(qEls).forEach(function(k){var parts=k.split('_'),id=parts[0],i=+parts[1];if(qstate[k]!=null&&QZ[id]&&QZ[id][i])show(qEls[k],QZ[id][i],qstate[k])});
+  Object.keys(QZ).forEach(function(id){if(document.getElementById('sc-'+id))scoreQ(id)});
+  if(typeof sAns!=='undefined'){var sv=progVals('scen');Object.keys(sAns).forEach(function(k){delete sAns[k]});Object.keys(sv).forEach(function(k){sAns[k]=sv[k]});renderScen()}
+  if(typeof done!=='undefined'){var dv=progVals('done');Object.keys(done).forEach(function(k){delete done[k]});Object.keys(dv).forEach(function(k){done[k]=dv[k]});renderDone()}
+}
+var qstate=progVals('quiz');
 document.querySelectorAll('[data-quiz]').forEach(function(box){
   var id=box.getAttribute('data-quiz'),qs=QZ[id];
   var head=document.createElement('div');head.className='qhead';
@@ -451,18 +474,18 @@ document.querySelectorAll('[data-quiz]').forEach(function(box){
     q.o.forEach(function(t,j){var b=document.createElement('button');b.type='button';b.className='opt';b.textContent=t;
       b.onclick=function(){answer(id,i,j,el)};opts.appendChild(b)});
     box.appendChild(el);
-    var k=id+'_'+i; if(qstate[k]!=null) show(el,q,qstate[k]);
+    var k=id+'_'+i; qEls[k]=el; if(qstate[k]!=null) show(el,q,qstate[k]);
   });
   scoreQ(id);
 });
-function answer(id,i,j,el){qstate[id+'_'+i]=j;store.set('quiz',qstate);show(el,QZ[id][i],j);scoreQ(id)}
+function answer(id,i,j,el){qstate[id+'_'+i]=j;progSet('quiz',id+'_'+i,j);show(el,QZ[id][i],j);scoreQ(id)}
 function show(el,q,j){var bs=el.querySelectorAll('.opt');bs.forEach(function(b,k){b.classList.remove('right','wrong');if(k===q.a)b.classList.add('right');else if(k===j)b.classList.add('wrong')});
   var w=el.querySelector('.why');w.hidden=false;w.innerHTML='<b>'+(j===q.a?'Right.':'Not quite.')+'</b> '+q.w}
 function scoreQ(id){var qs=QZ[id],n=0,c=0;qs.forEach(function(q,i){var v=qstate[id+'_'+i];if(v!=null){n++;if(v===q.a)c++}});
   document.getElementById('sc-'+id).textContent=n?c+' of '+qs.length+' right':qs.length+' questions'}
 
 /* ---------- scenarios ---------- */
-var si=0,sAns=store.get('scen',{}),scen=document.getElementById('scen');
+var si=0,sAns=progVals('scen'),scen=document.getElementById('scen');
 function renderScen(){
   var s=SC[si],picked=sAns[si];
   scen.innerHTML='<div class="qhead"><p class="sit">'+s.sit+'</p><span class="score">'+(si+1)+' of '+SC.length+'</span></div>'+
@@ -470,7 +493,7 @@ function renderScen(){
     '<div class="nav"><button class="btn ghost" type="button" id="prevS">Previous</button><span class="score" id="scenScore"></span><button class="btn" type="button" id="nextS">Next picture</button></div>';
   var opts=scen.querySelector('.opts');
   s.opts.forEach(function(t,j){var b=document.createElement('button');b.type='button';b.className='opt';b.textContent=t;
-    b.onclick=function(){sAns[si]=j;store.set('scen',sAns);renderScen()};opts.appendChild(b)});
+    b.onclick=function(){sAns[si]=j;progSet('scen',String(si),j);renderScen()};opts.appendChild(b)});
   if(picked!=null) show(scen,{a:s.a,w:s.why},picked);
   var c=0,n=0;SC.forEach(function(x,k){if(sAns[k]!=null){n++;if(sAns[k]===x.a)c++}});
   document.getElementById('scenScore').textContent=n?c+'/'+n+' correct':'';
@@ -526,9 +549,9 @@ function showStatus(){
   if(!getTok()){note('Saved on this device only. Set up sync below to save to GitHub, use any device, and get game reviews.','warn');$('syncBtn').textContent='Set up sync';return}
   $('syncBtn').textContent='Sync settings';
   if(syncErr){note(syncErr,'warn');return}
-  var pend=Object.keys(dirty).length+Object.keys(delPending).length;
+  var pend=Object.keys(dirty).length+Object.keys(delPending).length+(progDirty?1:0);
   if(pend){note('Saving to GitHub…','');return}
-  note(lastOk?'Synced to GitHub at '+new Date(lastOk).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})+'. Your games are on every device you set up.':'Synced to GitHub.','ok');
+  note(lastOk?'Synced to GitHub at '+new Date(lastOk).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})+'. Games, quiz answers and progress are on every device you set up.':'Synced to GitHub.','ok');
 }
 function errText(e){
   if(e&&e.status===401)return 'GitHub rejected your sync key (it may have expired). Open Sync settings and paste a new one. Your snaps are safe on this device.';
@@ -542,14 +565,14 @@ function pull(){
   pulling=api('/branches/'+CFG.branch).then(function(br){
     var csha=br.commit.sha;
     return api('/git/trees/'+br.commit.commit.tree.sha+'?recursive=1').then(function(tr){
-      var ents=(tr&&tr.tree||[]).filter(function(e){return e.type==='blob'&&/^data\/(games|reviews|plays)\/[^\/]+\.json$/.test(e.path)}),seen={};
+      var ents=(tr&&tr.tree||[]).filter(function(e){return e.type==='blob'&&(/^data\/(games|reviews|plays)\/[^\/]+\.json$/.test(e.path)||e.path==='data/progress.json')}),seen={};
       return Promise.all(ents.map(function(e){seen[e.path]=1;if(rc[e.path]&&rc[e.path].sha===e.sha)return null;
         return fetch('https://raw.githubusercontent.com/'+CFG.owner+'/'+CFG.repo+'/'+csha+'/'+e.path).then(function(r){if(!r.ok)throw new Error('raw '+r.status);return r.json()})
           .then(function(d){rc[e.path]={sha:e.sha,data:d}}).catch(function(){})}))
         .then(function(){Object.keys(rc).forEach(function(p){if(!seen[p])delete rc[p]})});
     });
   }).catch(function(e){if(e&&e.status===404){rc={};return}throw e})
-    .then(function(){store.set('rc',rc);applyRemote();if(getTok()){syncErr='';lastOk=Date.now()}showStatus()})
+    .then(function(){store.set('rc',rc);applyRemote();if(mergeProg(rc['data/progress.json']&&rc['data/progress.json'].data)&&getTok())schedulePush();if(getTok()){syncErr='';lastOk=Date.now()}showStatus()})
     .catch(function(e){if(getTok()){syncErr=errText(e)}showStatus()})
     .then(function(){pulling=null});
   return pulling;
@@ -572,6 +595,14 @@ function pushGame(id){
       return put(path,cleanGame(g),msgTxt)});
   }).then(function(){if((ver[id]||0)===v0){delete dirty[id];delete tombs[id]}store.set('dirty',dirty)});
 }
+function pushProg(){
+  var path='data/progress.json',snap=JSON.stringify(PROG);
+  var done_=function(){if(JSON.stringify(PROG)===snap){progDirty=false;store.set('progDirty',false)}};
+  return put(path,JSON.parse(snap),'Progress: quizzes and stations').then(done_).catch(function(e){
+    if(!(e&&(e.status===409||e.status===422)))throw e;
+    return remoteFile(path).then(function(rem){if(rem)rc[path]={sha:rem.sha,data:rem.data};else delete rc[path];mergeProg(rem&&rem.data);snap=JSON.stringify(PROG);
+      return put(path,JSON.parse(snap),'Progress: quizzes and stations').then(done_)})});
+}
 function deleteRemote(id){
   var paths=[gPath(id),'data/reviews/'+id+'.json'];
   return paths.reduce(function(p,path){return p.then(function(){
@@ -586,11 +617,13 @@ function flush(){
     var ids=Object.keys(dirty);
     return ids.reduce(function(p,id){return p.then(function(){return pushGame(id)})},Promise.resolve())
       .then(function(){return Object.keys(delPending).reduce(function(p,id){return p.then(function(){return deleteRemote(id)})},Promise.resolve())})
+      .then(function(){if(progDirty)return pushProg()})
       .then(function(){syncErr='';lastOk=Date.now();saveLocal();renderDrill();showStatus()});
   }).catch(function(e){syncErr=errText(e);showStatus()});
   return queue;
 }
-function persist(id){ver[id]=(ver[id]||0)+1;dirty[id]=true;store.set('dirty',dirty);saveLocal();clearTimeout(pushTimer);pushTimer=setTimeout(flush,800);showStatus()}
+function schedulePush(){clearTimeout(pushTimer);pushTimer=setTimeout(flush,800);showStatus()}
+function persist(id){ver[id]=(ver[id]||0)+1;dirty[id]=true;store.set('dirty',dirty);saveLocal();schedulePush()}
 function removeRemote(id){delete dirty[id];store.set('dirty',dirty);delPending[id]=true;store.set('delPending',delPending);saveLocal();flush()}
 function renderGameSelect(){
   var sel=$('f-game'); sel.innerHTML='';
@@ -743,18 +776,18 @@ $('tokSave').onclick=function(){
 var rmArmed=false;
 $('tokRemove').onclick=function(){var b=$('tokRemove');if(!rmArmed){rmArmed=true;b.textContent='Tap again to remove the key from this device';setTimeout(function(){rmArmed=false;b.textContent='Remove key from this device'},4000);return}
   setTok('');rmArmed=false;b.textContent='Remove key from this device';b.hidden=true;$('tokMsg').textContent='Removed. Snaps on this device stay here and won’t sync until you add a key again.';syncErr='';showStatus()};
-pull().then(function(){if(Object.keys(dirty).length||Object.keys(delPending).length)flush()});
+pull().then(function(){if(Object.keys(dirty).length||Object.keys(delPending).length||progDirty)flush()});
 document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible'){flush().then(pull)}});
 window.addEventListener('online',function(){flush().then(pull)});
 
 /* ---------- progress ---------- */
-var done=store.get('done',{});
+var done=progVals('done');
 function renderDone(){var k=0;
   document.querySelectorAll('[data-done]').forEach(function(b){var id=b.getAttribute('data-done');
     b.textContent=done[id]?'Done ✓ (tap to undo)':'Mark station done';b.classList.toggle('ghost',!done[id]);if(done[id])k++;
     var a=document.querySelector('#toc a[href="#'+id+'"]');if(a)a.classList.toggle('done',!!done[id])});
   document.getElementById('progressStamp').textContent=k===8?'All 8 stations done':k+' of 8 stations done'}
-document.querySelectorAll('[data-done]').forEach(function(b){b.onclick=function(){var id=b.getAttribute('data-done');done[id]=!done[id];store.set('done',done);renderDone()}});
+document.querySelectorAll('[data-done]').forEach(function(b){b.onclick=function(){var id=b.getAttribute('data-done');done[id]=!done[id];progSet('done',id,done[id]);renderDone()}});
 renderDone();
 })();
 </script>

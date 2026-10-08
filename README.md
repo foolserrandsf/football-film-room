@@ -10,7 +10,7 @@ A 4-hour football crash course built around one skill: reading the field before 
 
 ## Syncing (once per device)
 
-Your games are saved as files in this repo on the `data` branch, so they're on every device and the morning review can read them. Each device needs a sync key:
+Your games, quiz answers, snap-reading answers and station checkmarks are saved as files in this repo on the `data` branch (`data/games/`, `data/progress.json`), so they're on every device and the morning review can read them. Other devices pick up changes when the app opens or you switch back to it. Each device needs a sync key:
 
 1. Go to **github.com/settings/personal-access-tokens/new**.
 2. Name it "Film Room" and pick an expiration date.
