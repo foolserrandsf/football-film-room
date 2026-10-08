@@ -1,16 +1,18 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Football Film Room</title>
-<meta name="description" content="A 4-hour crash course in reading football before the snap, with a game-day prediction drill.">
+<meta name="description" content="A 4-hour football crash course with a pre-snap prediction drill and game reviews.">
 <meta name="theme-color" content="#2E6B45">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Film Room">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
 <style>
 /* Layout: same yard-line masthead as the Football Brief; one column of 8 timed stations, each read → diagram → quiz */
@@ -31,6 +33,8 @@
   --field:#5FB07F; --field-soft:#1B3325; --turf:#1F4D31; --bad:#F28B82; --bad-soft:rgba(242,139,130,.14); color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+img{max-width:100%}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6}
 h1,h2,h3{font-family:var(--display);letter-spacing:.01em;text-wrap:balance}
 .wrap{max-width:760px;margin:0 auto;padding-inline:20px}
@@ -141,12 +145,20 @@ table.narrow{min-width:0}
 .playcard h4{font-family:var(--display);font-size:21px;margin:0 0 4px}
 .playcard .seen{font-size:13px;color:var(--muted);margin:0 0 6px}
 .playcard img{display:block;width:100%;height:auto;background:var(--turf);border-radius:6px;padding:8px;margin:8px 0}
+.syncrow{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:0 0 10px}.syncrow .sync{margin:0;flex:1 1 220px}
+.btn.small{font-size:15px;padding:3px 10px}
+.syncpanel{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:14px 16px;margin:0 0 14px}
+.syncpanel h3{margin-top:0}.syncpanel ol{padding-left:22px;margin:0 0 12px}.syncpanel li{margin-bottom:6px}
+.syncpanel label.tok{display:grid;gap:2px;font-family:var(--display);font-size:15px;font-weight:600;color:var(--muted);margin:0 0 10px}
+.syncpanel .actions{display:flex;gap:8px;flex-wrap:wrap}
+.syncpanel a{color:var(--field)}
+code{font-size:.9em;background:var(--field-soft);padding:0 4px;border-radius:3px}
 .empty{color:var(--muted);font-size:15px;padding:12px 0}
 footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);padding-top:14px;margin-top:40px}
 @media (prefers-reduced-motion: no-preference){.opt,.btn{transition:background .15s,border-color .15s}}
 </style>
-
-</head><body>
+</head>
+<body>
 <header><div class="wrap">
   <p>A 4-hour crash course &nbsp;/&nbsp; NFL + college</p>
   <h1>Football Film Room</h1>
@@ -303,7 +315,7 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);paddin
 <p class="eyebrow">Station 8 · 40 min</p>
 <h2>The drill: predict one quarter</h2>
 <p>Put on any game replay. Pause before every snap. Log the game clock and yard line from the TV graphic, what you see, and your call, then play it and log what happened. The clock and yard line let your game review find the exact play, even if you skip snaps. For a bonus, name the exact play you expect (Station 5); the review grades it and corrects anything you logged wrong. Do 15–20 snaps, about one quarter.</p>
-<div class="lesson"><p class="tag">The benchmark</p><p>Roughly 55–60% of NFL plays are passes, so guessing "pass" every time scores about that. <strong>Beat 70%</strong> and your reads are doing real work. Snaps save on this device, by game and quarter. Use <strong>Export backup</strong> below to move them to another device or to send a game to Claude for a review.</p></div>
+<div class="lesson"><p class="tag">The benchmark</p><p>Roughly 55–60% of NFL plays are passes, so guessing "pass" every time scores about that. <strong>Beat 70%</strong> and your reads are doing real work. Snaps save to your GitHub repo, by game and quarter, so once you set up sync they’re on every device you use, and each game gets an automatic review the morning after.</p></div>
 <div class="gamebar">
   <label for="f-game">Game<select id="f-game"></select></label>
   <label for="f-q">Quarter<select id="f-q"><option>Q1</option><option>Q2</option><option>Q3</option><option>Q4</option><option>OT</option></select></label>
@@ -312,7 +324,22 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);paddin
     <button class="btn" type="button" id="startGame">Start game</button>
   </div>
 </div>
-<p class="sync" id="syncNote">Loading your saved snaps…</p>
+<div class="syncrow"><p class="sync" id="syncNote">Loading your games…</p><button class="btn ghost small" type="button" id="syncBtn">Sync settings</button></div>
+<div class="syncpanel" id="syncPanel" hidden>
+  <h3>Sync with GitHub</h3>
+  <p>Your games save as files in your repo <strong id="repoName">foolserrandsf/football-film-room</strong>, on its <code>data</code> branch. Each device needs a sync key once. Make one that can only touch this repo:</p>
+  <ol>
+    <li>Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a> (signed in to GitHub).</li>
+    <li><strong>Token name:</strong> Film Room. <strong>Expiration:</strong> pick a date up to a year out.</li>
+    <li><strong>Repository access:</strong> Only select repositories → <strong>football-film-room</strong>.</li>
+    <li><strong>Permissions:</strong> Repository permissions → <strong>Contents</strong> → <strong>Read and write</strong>.</li>
+    <li>Tap <strong>Generate token</strong>, copy it (starts with <code>github_pat_</code>), paste it below.</li>
+  </ol>
+  <label for="f-token" class="tok">Sync key<input id="f-token" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="github_pat_…"></label>
+  <div class="actions"><button class="btn" type="button" id="tokSave">Save key and sync</button><button class="btn warn" type="button" id="tokRemove" hidden>Remove key from this device</button></div>
+  <p class="note" id="tokMsg" aria-live="polite"></p>
+  <p class="note">The key stays on this device only. On a second phone or computer, make or reuse a key and paste it there too. Your repo is public, so anyone can read your logged snaps; nobody can change them without a key.</p>
+</div>
 <form class="form" id="drillForm" novalidate>
   <label for="f-clock">Game clock<input id="f-clock" placeholder="e.g. 8:42" inputmode="numeric" autocomplete="off"></label>
   <label for="f-spot">Ball on (yard line)<input id="f-spot" placeholder="e.g. CHI 45" autocomplete="off" autocapitalize="characters"></label>
@@ -337,9 +364,6 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);paddin
 <h3>All your games</h3>
 <div class="scroll"><table id="gTable" class="narrow"><thead><tr><th>Game</th><th>Snaps</th><th>Accuracy</th><th></th></tr></thead><tbody></tbody></table></div>
 <p class="empty" id="gEmpty">No games yet. Pick "+ New game" above to start one.</p>
-<h3>Backup and reviews</h3>
-<p>Your games live in this browser only. Export a backup now and then; import it on another device, or import a review file Claude made for you.</p>
-<div class="donebar"><button class="btn" type="button" id="exportBtn">Export backup</button><button class="btn ghost" type="button" id="importBtn">Import backup or review</button><input type="file" id="importFile" accept="application/json,.json" hidden><span class="note" id="backupNote"></span></div>
 <div class="donebar"><button class="btn warn" type="button" id="delGame">Delete this game</button><span class="note" id="delNote"></span></div>
 <div class="donebar"><button class="btn ghost" data-done="s8">Mark station done</button></div>
 </section>
@@ -457,8 +481,8 @@ function renderScen(){
 }
 renderScen();
 
-/* ---------- drill: games saved to the artifact's database ---------- */
-var games={}, gameOrder=[], cur=store.get('curGame',null), mode='local', db=null, writing=Promise.resolve(), readOnly=false;
+/* ---------- drill: games saved to your GitHub repo (branch "data") ---------- */
+var games={}, gameOrder=[], cur=store.get('curGame',null), readOnly=false;
 var $=function(id){return document.getElementById(id)};
 var tb=document.querySelector('#drillTable tbody'), qtb=document.querySelector('#qTable tbody'), gtb=document.querySelector('#gTable tbody');
 var QS=['Q1','Q2','Q3','Q4','OT'];
@@ -470,17 +494,104 @@ function sortGames(){gameOrder=Object.keys(games).sort(function(a,b){return (gam
 function note(t,cls){var n=$('syncNote');n.textContent=t;n.className='sync '+(cls||'')}
 function msg(t){var m=$('formMsg');m.hidden=!t;m.textContent=t||''}
 function saveLocal(){store.set('games',games)}
-function persist(id){
-  var g=games[id]; if(!g) return;
-  if(mode!=='db'){saveLocal();return}
-  var body={name:g.name,created:g.created,snaps:g.snaps.slice()};
-  writing=writing.then(function(){return db.doc('games/'+id).set(body)}).catch(function(e){
-    if(e&&e.code==='invalid_argument'){readOnly=true;note('You can view these games but not change them.','warn');renderDrill()}
-    else if(e&&e.code==='quota_exceeded'){msg('Storage is full. Delete an old game to keep logging.')}
-    else msg('That change didn’t save to your account. It’s still on screen; log your next snap and it will save both.');
-  });
+
+// Which repo: read it from the GitHub Pages address (owner.github.io/repo/), with a fallback for local testing.
+var CFG=(function(){var host=location.hostname,parts=location.pathname.split('/').filter(Boolean),gh=/\.github\.io$/i.test(host);
+  return {owner:gh?host.split('.')[0]:'foolserrandsf',repo:(gh&&parts[0])?parts[0]:'football-film-room',branch:'data'}})();
+var TOK_KEY='ffr_github_key';
+function getTok(){try{return localStorage.getItem(TOK_KEY)||''}catch(e){return ''}}
+function setTok(t){try{if(t)localStorage.setItem(TOK_KEY,t);else localStorage.removeItem(TOK_KEY)}catch(e){}}
+var rc=store.get('rc',{});            // remote cache: path -> {sha, data}
+var dirty=store.get('dirty',{});      // game id -> unsaved local changes
+var delPending=store.get('delPending',{}); // game ids deleted here, not yet deleted on GitHub
+var tombs={}, ver={}, pushTimer=null, queue=Promise.resolve(), lastOk=0, syncErr='';
+
+function api(path,opt){opt=opt||{};var hd={'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'},t=getTok();
+  if(t)hd['Authorization']='Bearer '+t;if(opt.body)hd['Content-Type']='application/json';
+  return fetch('https://api.github.com/repos/'+CFG.owner+'/'+CFG.repo+path,{method:opt.method||'GET',headers:hd,body:opt.body?JSON.stringify(opt.body):undefined,cache:'no-store'})
+    .then(function(r){if(r.status===204)return null;return r.json().catch(function(){return null}).then(function(j){if(!r.ok){var e=new Error((j&&j.message)||('HTTP '+r.status));e.status=r.status;throw e}return j})})}
+function b64(s){var by=new TextEncoder().encode(s),bin='';for(var i=0;i<by.length;i+=0x8000)bin+=String.fromCharCode.apply(null,by.subarray(i,i+0x8000));return btoa(bin)}
+function unb64(s){var bin=atob(String(s).replace(/\s/g,'')),u=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return new TextDecoder().decode(u)}
+function gPath(id){return 'data/games/'+id+'.json'}
+function coll(name){var m={},re=new RegExp('^data/'+name+'/([^/]+)\\.json$');Object.keys(rc).forEach(function(p){var x=re.exec(p);if(x&&rc[p]&&rc[p].data&&typeof rc[p].data==='object')m[x[1]]=rc[p].data});return m}
+function cleanGame(x){return {name:String(x.name||'Untitled game').slice(0,80),created:+x.created||0,snaps:Array.isArray(x.snaps)?x.snaps.filter(function(s){return s&&typeof s==='object'}):[]}}
+function applyRemote(){
+  reviews=coll('reviews');plays=coll('plays');
+  var rg=coll('games'),out={};
+  Object.keys(rg).forEach(function(id){if(!delPending[id])out[id]=cleanGame(rg[id])});
+  Object.keys(games).forEach(function(id){if(dirty[id]&&!delPending[id])out[id]=games[id]});
+  games=out;saveLocal();renderMyPlays();renderDrill();
 }
-function removeRemote(id){ if(mode==='db') writing=writing.then(function(){return db.doc('games/'+id).delete()}).catch(function(){msg('Couldn’t delete that game. Try again.')}); else saveLocal(); }
+function showStatus(){
+  if(!getTok()){note('Saved on this device only. Set up sync below to save to GitHub, use any device, and get game reviews.','warn');$('syncBtn').textContent='Set up sync';return}
+  $('syncBtn').textContent='Sync settings';
+  if(syncErr){note(syncErr,'warn');return}
+  var pend=Object.keys(dirty).length+Object.keys(delPending).length;
+  if(pend){note('Saving to GitHub…','');return}
+  note(lastOk?'Synced to GitHub at '+new Date(lastOk).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})+'. Your games are on every device you set up.':'Synced to GitHub.','ok');
+}
+function errText(e){
+  if(e&&e.status===401)return 'GitHub rejected your sync key (it may have expired). Open Sync settings and paste a new one. Your snaps are safe on this device.';
+  if(e&&(e.status===403||e.status===404))return 'Your sync key can’t write to '+CFG.owner+'/'+CFG.repo+'. Check that it has Contents: Read and write for that repo. Your snaps are safe on this device.';
+  return 'Couldn’t reach GitHub. Your snaps are kept on this device and will save when you’re back online.'}
+
+// Read everything from the data branch: 2 API calls, then file contents from raw.githubusercontent.com (pinned to the commit, so never stale).
+var pulling=null;
+function pull(){
+  if(pulling)return pulling;
+  pulling=api('/branches/'+CFG.branch).then(function(br){
+    var csha=br.commit.sha;
+    return api('/git/trees/'+br.commit.commit.tree.sha+'?recursive=1').then(function(tr){
+      var ents=(tr&&tr.tree||[]).filter(function(e){return e.type==='blob'&&/^data\/(games|reviews|plays)\/[^\/]+\.json$/.test(e.path)}),seen={};
+      return Promise.all(ents.map(function(e){seen[e.path]=1;if(rc[e.path]&&rc[e.path].sha===e.sha)return null;
+        return fetch('https://raw.githubusercontent.com/'+CFG.owner+'/'+CFG.repo+'/'+csha+'/'+e.path).then(function(r){if(!r.ok)throw new Error('raw '+r.status);return r.json()})
+          .then(function(d){rc[e.path]={sha:e.sha,data:d}}).catch(function(){})}))
+        .then(function(){Object.keys(rc).forEach(function(p){if(!seen[p])delete rc[p]})});
+    });
+  }).catch(function(e){if(e&&e.status===404){rc={};return}throw e})
+    .then(function(){store.set('rc',rc);applyRemote();if(getTok()){syncErr='';lastOk=Date.now()}showStatus()})
+    .catch(function(e){if(getTok()){syncErr=errText(e)}showStatus()})
+    .then(function(){pulling=null});
+  return pulling;
+}
+function remoteFile(path){return api('/contents/'+path+'?ref='+CFG.branch).then(function(j){return {sha:j.sha,data:JSON.parse(unb64(j.content))}}).catch(function(e){if(e&&e.status===404)return null;throw e})}
+function put(path,data,message){
+  var body={message:message,content:b64(JSON.stringify(data,null,1)+'\n'),branch:CFG.branch};
+  if(rc[path]&&rc[path].sha)body.sha=rc[path].sha;
+  return api('/contents/'+path,{method:'PUT',body:body}).then(function(r){rc[path]={sha:r.content.sha,data:JSON.parse(JSON.stringify(data))};store.set('rc',rc)})}
+function pushGame(id){
+  var g=games[id];if(!g){delete dirty[id];return Promise.resolve()}
+  var v0=ver[id]||0,path=gPath(id),msgTxt='Drill: '+g.name+' ('+g.snaps.length+' snaps)';
+  return put(path,cleanGame(g),msgTxt).catch(function(e){
+    if(!(e&&(e.status===409||e.status===422)))throw e;
+    // Changed on another device: merge both lists of snaps, keeping anything undone here out.
+    return remoteFile(path).then(function(rem){
+      if(rem){rc[path]={sha:rem.sha,data:rem.data};var tomb=tombs[id]||{},have={};g.snaps.forEach(function(s){have[s.t]=1});
+        (cleanGame(rem.data).snaps).forEach(function(s){if(!have[s.t]&&!tomb[s.t])g.snaps.push(s)});g.snaps.sort(function(a,b){return a.t-b.t})}
+      else delete rc[path];
+      return put(path,cleanGame(g),msgTxt)});
+  }).then(function(){if((ver[id]||0)===v0){delete dirty[id];delete tombs[id]}store.set('dirty',dirty)});
+}
+function deleteRemote(id){
+  var paths=[gPath(id),'data/reviews/'+id+'.json'];
+  return paths.reduce(function(p,path){return p.then(function(){
+    var go=rc[path]&&rc[path].sha?Promise.resolve(rc[path].sha):remoteFile(path).then(function(r){return r&&r.sha});
+    return go.then(function(sha){if(!sha)return;return api('/contents/'+path,{method:'DELETE',body:{message:'Drill: delete '+path,sha:sha,branch:CFG.branch}}).catch(function(e){if(!(e&&e.status===404))throw e})})
+      .then(function(){delete rc[path]})})},Promise.resolve())
+    .then(function(){delete delPending[id];store.set('delPending',delPending);store.set('rc',rc)});
+}
+function flush(){
+  if(!getTok()){showStatus();return queue}
+  queue=queue.then(function(){showStatus();
+    var ids=Object.keys(dirty);
+    return ids.reduce(function(p,id){return p.then(function(){return pushGame(id)})},Promise.resolve())
+      .then(function(){return Object.keys(delPending).reduce(function(p,id){return p.then(function(){return deleteRemote(id)})},Promise.resolve())})
+      .then(function(){syncErr='';lastOk=Date.now();saveLocal();renderDrill();showStatus()});
+  }).catch(function(e){syncErr=errText(e);showStatus()});
+  return queue;
+}
+function persist(id){ver[id]=(ver[id]||0)+1;dirty[id]=true;store.set('dirty',dirty);saveLocal();clearTimeout(pushTimer);pushTimer=setTimeout(flush,800);showStatus()}
+function removeRemote(id){delete dirty[id];store.set('dirty',dirty);delPending[id]=true;store.set('delPending',delPending);saveLocal();flush()}
 function renderGameSelect(){
   var sel=$('f-game'); sel.innerHTML='';
   gameOrder.forEach(function(id){var o=document.createElement('option');o.value=id;o.textContent=games[id].name;sel.appendChild(o)});
@@ -610,52 +721,31 @@ $('drillForm').addEventListener('submit',function(e){e.preventDefault();
   var clk=normClock(v('f-clock'));if(clk===null||(clk&&(secs(clk)>900||+clk.split(':')[1]>59))){msg('Enter the game clock as minutes:seconds, like 8:42 (15:00 or less).');$('f-clock').focus();return}
   games[cur].snaps.push({clock:clk,spot:v('f-spot').trim().toUpperCase().slice(0,12),q:v('f-q'),sit:v('f-sit').trim().slice(0,40)||'—',pers:v('f-pers'),box:v('f-box'),saf:v('f-saf'),pred:v('f-pred'),act:v('f-act'),play:(v('f-play')==='__other'?v('f-playother').trim().slice(0,40):v('f-play')),t:Date.now()});
   msg('');persist(cur);$('f-sit').value='';$('f-clock').value='';$('f-spot').value='';$('f-play').value='';$('f-playother').value='';$('otherWrap').hidden=true;renderDrill();$('f-clock').focus()});
-$('undoBtn').onclick=function(){var g=games[cur];if(!g||!g.snaps.length)return;g.snaps.pop();persist(cur);renderDrill()};
+$('undoBtn').onclick=function(){var g=games[cur];if(!g||!g.snaps.length)return;var s=g.snaps.pop();(tombs[cur]=tombs[cur]||{})[s.t]=1;persist(cur);renderDrill()};
 var armed=false,del=$('delGame');
 del.onclick=function(){if(!games[cur])return;
   if(!armed){armed=true;del.textContent='Tap again to delete "'+games[cur].name+'"';setTimeout(function(){armed=false;del.textContent='Delete this game'},4000);return}
   var id=cur;delete games[id];armed=false;del.textContent='Delete this game';cur=null;removeRemote(id);renderDrill()};
 
-// start with whatever this browser has, then switch to the account copy
+// Start from this device's copy, then refresh from GitHub.
 games=store.get('games',{})||{};
-var legacy=store.get('drill',[]);
-if(legacy.length&&!Object.keys(games).length){var lid=newId();games[lid]={name:'Earlier snaps (before games)',created:Date.now(),snaps:legacy.map(function(r){var o={};for(var k in r)o[k]=r[k];o.q=o.q||'—';return o})};}
-renderDrill();
-var SEED_PLAYS={"shovel-pass":{"added": 1790660000000, "beats": "Aggressive pass rushers, especially on 3rd & short near the goal line, when the defense expects a pass. For the drill, log it as a Pass (that's how the stats count it), and it's a great bonus call when the defense is selling out to rush.", "caption": "White arrows: the linemen block forward and the slot receiver runs across behind the line. Dashed white: the underhand toss. Yellow dashes: pass rushers charging the QB.", "name": "Shovel pass", "seenIn": "Covered together while going over Eagles at Bears, Week 3 (Luther Burden’s 8-yard touchdown on 3rd & 2)", "spot": "A receiver or back running sideways behind the line right as the QB moves forward (not back) with the ball. On the replay, look for the QB flipping the ball underhand.", "svg": "<svg viewBox=\"0 0 400 206\" role=\"img\" aria-label=\"Shovel pass: the quarterback flips the ball forward to a receiver running across just behind the line, while linemen block like a run\"><defs><marker id=\"m1w\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\"><path d=\"M0 0L10 5L0 10z\" fill=\"#FFFFFF\"/><\/marker><marker id=\"m1y\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\"><path d=\"M0 0L10 5L0 10z\" fill=\"#F2B705\"/><\/marker><\/defs><rect x=\"0\" y=\"0\" width=\"400\" height=\"40\" fill=\"rgba(255,255,255,.08)\"/><text x=\"200\" y=\"26\" font-family=\"Arial,Helvetica,sans-serif\" font-size=\"12\" font-weight=\"700\" text-anchor=\"middle\" fill=\"rgba(255,255,255,.6)\">END ZONE<\/text><line x1=\"0\" x2=\"400\" y1=\"40\" y2=\"40\" stroke=\"#fff\" stroke-width=\"2\"/><line x1=\"0\" x2=\"400\" y1=\"120\" y2=\"120\" stroke=\"#F2B705\" stroke-width=\"2\"/><text x=\"296\" y=\"115\" font-family=\"Arial,Helvetica,sans-serif\" font-size=\"10\" fill=\"rgba(255,255,255,.75)\">LOS, PHI 8<\/text><path d=\"M150 122 L150 106\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"1.6\" marker-end=\"url(#m1w)\"/><path d=\"M176 122 L176 106\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"1.6\" marker-end=\"url(#m1w)\"/><path d=\"M202 122 L202 106\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"1.6\" marker-end=\"url(#m1w)\"/><path d=\"M228 122 L228 106\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"1.6\" marker-end=\"url(#m1w)\"/><path d=\"M254 122 L254 106\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"1.6\" marker-end=\"url(#m1w)\"/><path d=\"M157 108 L164.2 170\" fill=\"none\" stroke=\"#F2B705\" stroke-width=\"1.4\" stroke-dasharray=\"5 4\" marker-end=\"url(#m1y)\"/><path d=\"M185 108 L189.4 170\" fill=\"none\" stroke=\"#F2B705\" stroke-width=\"1.4\" stroke-dasharray=\"5 4\" marker-end=\"url(#m1y)\"/><path d=\"M225 108 L214.6 170\" fill=\"none\" stroke=\"#F2B705\" stroke-width=\"1.4\" stroke-dasharray=\"5 4\" marker-end=\"url(#m1y)\"/><path d=\"M253 108 L239.8 170\" fill=\"none\" stroke=\"#F2B705\" stroke-width=\"1.4\" stroke-dasharray=\"5 4\" marker-end=\"url(#m1y)\"/><path d=\"M96 142 L150 160 L214 160 L236 112 L240 52\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"2.4\" marker-end=\"url(#m1w)\"/><path d=\"M206 176 L222 164\" stroke=\"#fff\" stroke-width=\"1.8\" stroke-dasharray=\"3 3\" fill=\"none\" marker-end=\"url(#m1w)\"/><rect x=\"140.0\" y=\"124.0\" width=\"20\" height=\"20\" rx=\"3\" fill=\"#FFFFFF\"/><rect x=\"166.0\" y=\"124.0\" width=\"20\" height=\"20\" rx=\"3\" fill=\"#FFFFFF\"/><rect x=\"192.0\" y=\"124.0\" width=\"20\" height=\"20\" rx=\"3\" fill=\"#FFFFFF\"/><rect x=\"218.0\" y=\"124.0\" width=\"20\" height=\"20\" rx=\"3\" fill=\"#FFFFFF\"/><rect x=\"244.0\" y=\"124.0\" width=\"20\" height=\"20\" rx=\"3\" fill=\"#FFFFFF\"/><circle cx=\"286\" cy=\"136\" r=\"10\" fill=\"#FFFFFF\"/><text x=\"286\" y=\"139.5\" font-family=\"Arial,Helvetica,sans-serif\" font-size=\"8\" font-weight=\"700\" text-anchor=\"middle\" fill=\"#1F4D31\">TE<\/text><circle cx=\"30\" cy=\"134\" r=\"10\" fill=\"#FFFFFF\"/><text x=\"30\" y=\"137.5\" font-family=\"Arial,Helvetica,sans-serif\" font-size=\"8\" font-weight=\"700\" text-anchor=\"middle\" fill=\"#1F4D31\">WR<\/text><circle cx=\"96\" cy=\"140\" r=\"10\" fill=\"#FFFFFF\"/><text x=\"96\" y=\"143.5\" font-family=\"Arial,Helvetica,sans-serif\" font-size=\"8\" font-weight=\"700\" text-anchor=\"middle\" fill=\"#1F4D31\">WR<\/text><circle cx=\"372\" cy=\"134\" r=\"10\" fill=\"#FFFFFF\"/><text x=\"372\" y=\"137.5\" font-family=\"Arial,Helvetica,sans-serif\" font-size=\"8\" font-weight=\"700\" text-anchor=\"middle\" fill=\"#1F4D31\">WR<\/text><circle cx=\"202\" cy=\"182\" r=\"10\" fill=\"#FFFFFF\"/><text x=\"202\" y=\"185.5\" font-family=\"Arial,Helvetica,sans-serif\" font-size=\"8\" font-weight=\"700\" text-anchor=\"middle\" fill=\"#1F4D31\">QB<\/text><circle cx=\"234\" cy=\"182\" r=\"10\" fill=\"#FFFFFF\"/><text x=\"234\" y=\"185.5\" font-family=\"Arial,Helvetica,sans-serif\" font-size=\"8\" font-weight=\"700\" text-anchor=\"middle\" fill=\"#1F4D31\">RB<\/text><circle cx=\"163\" cy=\"96\" r=\"10\" fill=\"#F2B705\"/><text x=\"163\" y=\"99.5\" font-family=\"Arial,Helvetica,sans-serif\" font-size=\"8\" font-weight=\"700\" text-anchor=\"middle\" fill=\"#14202B\">DL<\/text><circle cx=\"191\" cy=\"96\" r=\"10\" fill=\"#F2B705\"/><text x=\"191\" y=\"99.5\" font-family=\"Arial,Helvetica,sans-serif\" font-size=\"8\" font-weight=\"700\" text-anchor=\"middle\" fill=\"#14202B\">DL<\/text><circle cx=\"219\" cy=\"96\" r=\"10\" fill=\"#F2B705\"/><text x=\"219\" y=\"99.5\" font-family=\"Arial,Helvetica,sans-serif\" font-size=\"8\" font-weight=\"700\" text-anchor=\"middle\" fill=\"#14202B\">DL<\/text><circle cx=\"247\" cy=\"96\" r=\"10\" fill=\"#F2B705\"/><text x=\"247\" y=\"99.5\" font-family=\"Arial,Helvetica,sans-serif\" font-size=\"8\" font-weight=\"700\" text-anchor=\"middle\" fill=\"#14202B\">DL<\/text><circle cx=\"185\" cy=\"64\" r=\"10\" fill=\"#F2B705\"/><text x=\"185\" y=\"67.5\" font-family=\"Arial,Helvetica,sans-serif\" font-size=\"8\" font-weight=\"700\" text-anchor=\"middle\" fill=\"#14202B\">LB<\/text><circle cx=\"240\" cy=\"64\" r=\"10\" fill=\"#F2B705\"/><text x=\"240\" y=\"67.5\" font-family=\"Arial,Helvetica,sans-serif\" font-size=\"8\" font-weight=\"700\" text-anchor=\"middle\" fill=\"#14202B\">LB<\/text><circle cx=\"30\" cy=\"100\" r=\"10\" fill=\"#F2B705\"/><text x=\"30\" y=\"103.5\" font-family=\"Arial,Helvetica,sans-serif\" font-size=\"8\" font-weight=\"700\" text-anchor=\"middle\" fill=\"#14202B\">CB<\/text><circle cx=\"372\" cy=\"100\" r=\"10\" fill=\"#F2B705\"/><text x=\"372\" y=\"103.5\" font-family=\"Arial,Helvetica,sans-serif\" font-size=\"8\" font-weight=\"700\" text-anchor=\"middle\" fill=\"#14202B\">CB<\/text><circle cx=\"96\" cy=\"90\" r=\"10\" fill=\"#F2B705\"/><text x=\"96\" y=\"93.5\" font-family=\"Arial,Helvetica,sans-serif\" font-size=\"8\" font-weight=\"700\" text-anchor=\"middle\" fill=\"#14202B\">NB<\/text><circle cx=\"150\" cy=\"60\" r=\"10\" fill=\"#F2B705\"/><text x=\"150\" y=\"63.5\" font-family=\"Arial,Helvetica,sans-serif\" font-size=\"8\" font-weight=\"700\" text-anchor=\"middle\" fill=\"#14202B\">S<\/text><circle cx=\"280\" cy=\"60\" r=\"10\" fill=\"#F2B705\"/><text x=\"280\" y=\"63.5\" font-family=\"Arial,Helvetica,sans-serif\" font-size=\"8\" font-weight=\"700\" text-anchor=\"middle\" fill=\"#14202B\">S<\/text><text x=\"244\" y=\"202\" font-family=\"Arial,Helvetica,sans-serif\" font-size=\"10\" font-weight=\"700\" text-anchor=\"start\" fill=\"rgba(255,255,255,.9)\">underhand toss<\/text><text x=\"40\" y=\"182\" font-family=\"Arial,Helvetica,sans-serif\" font-size=\"10\" font-weight=\"700\" text-anchor=\"start\" fill=\"rgba(255,255,255,.9)\">slot WR runs across<\/text><text x=\"40\" y=\"195\" font-family=\"Arial,Helvetica,sans-serif\" font-size=\"10\" font-weight=\"700\" text-anchor=\"start\" fill=\"rgba(255,255,255,.9)\">behind the line<\/text><text x=\"272\" y=\"80\" font-family=\"Arial,Helvetica,sans-serif\" font-size=\"10\" font-weight=\"700\" text-anchor=\"start\" fill=\"#F2B705\">rushers charge QB<\/text><\/svg>", "what": ["A shovel pass is a tiny forward pass, tossed underhand, to a player running across just behind the line of scrimmage. It's officially a pass, but it looks and works like a run.", "The linemen block forward as if it's a run. The pass rushers, sure it's a pass, charge the quarterback, and the ball goes right underneath them to a player heading for the hole they just left."]}};
-plays=store.get('plays',null)||SEED_PLAYS;reviews=store.get('reviews',{})||{};
-store.set('plays',plays);
-mode='local';saveLocal();renderMyPlays();renderDrill();
-note('Saved on this device. Export a backup to keep a copy or move it to another device.','ok');
-
-/* ---------- backup: export / import ---------- */
-function bnote(t){$('backupNote').textContent=t}
-$('exportBtn').onclick=function(){
-  var data={app:'football-film-room',version:1,exported:new Date().toISOString(),games:games,reviews:reviews,plays:plays};
-  var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-  var a=document.createElement('a');a.href=URL.createObjectURL(blob);
-  a.download='film-room-backup-'+new Date().toISOString().slice(0,10)+'.json';
-  document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1000);
-  bnote('Backup saved to your downloads.')};
-$('importBtn').onclick=function(){$('importFile').click()};
-function isObj(x){return x&&typeof x==='object'&&!Array.isArray(x)}
-$('importFile').onchange=function(){
-  var f=this.files&&this.files[0];this.value='';if(!f)return;
-  var rd=new FileReader();
-  rd.onload=function(){
-    var d;try{d=JSON.parse(rd.result)}catch(e){bnote('That file isn’t a Film Room backup (it’s not valid JSON).');return}
-    if(!isObj(d)){bnote('That file isn’t a Film Room backup.');return}
-    var ng=0,ns=0,nr=0,np=0;
-    if(isObj(d.games))Object.keys(d.games).forEach(function(id){var x=d.games[id];if(!isObj(x))return;
-      var snaps=Array.isArray(x.snaps)?x.snaps.filter(isObj):[];
-      if(!games[id]){games[id]={name:String(x.name||'Untitled game').slice(0,80),created:+x.created||Date.now(),snaps:snaps};ng++;ns+=snaps.length;return}
-      var have={};games[id].snaps.forEach(function(r){have[r.t]=1});
-      snaps.forEach(function(r){if(!have[r.t]){games[id].snaps.push(r);ns++}});
-      games[id].snaps.sort(function(a,b){return (+a.t||0)-(+b.t||0)})});
-    if(isObj(d.reviews))Object.keys(d.reviews).forEach(function(id){if(isObj(d.reviews[id])){reviews[id]=d.reviews[id];nr++}});
-    if(isObj(d.plays))Object.keys(d.plays).forEach(function(id){if(isObj(d.plays[id])){if(!plays[id])np++;plays[id]=d.plays[id]}});
-    saveLocal();store.set('reviews',reviews);store.set('plays',plays);renderMyPlays();renderDrill();
-    bnote('Imported '+ng+' new game'+(ng===1?'':'s')+', '+ns+' snap'+(ns===1?'':'s')+', '+nr+' review'+(nr===1?'':'s')+', '+np+' new play'+(np===1?'':'s')+'.')};
-  rd.readAsText(f)};
+renderMyPlays();renderDrill();showStatus();
+$('syncBtn').onclick=function(){var p=$('syncPanel');p.hidden=!p.hidden;if(!p.hidden){$('repoName').textContent=CFG.owner+'/'+CFG.repo;$('f-token').value='';$('tokMsg').textContent='';$('tokRemove').hidden=!getTok();$('f-token').focus()}};
+$('tokSave').onclick=function(){
+  var t=v('f-token').trim(),m=$('tokMsg');
+  if(!/^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/.test(t)){m.textContent='That doesn’t look like a GitHub key. It starts with github_pat_. Copy it again from GitHub.';return}
+  m.textContent='Checking the key…';var old=getTok();setTok(t);
+  api('').then(function(r){if(!r||!r.permissions||!r.permissions.push)throw {status:403};
+    m.textContent='Connected. Saving your games to GitHub…';$('f-token').value='';$('tokRemove').hidden=false;
+    syncErr='';return flush().then(pull)}).then(function(){if(!syncErr){m.textContent='Done. This device now syncs with GitHub.';setTimeout(function(){$('syncPanel').hidden=true},1500)}})
+  .catch(function(e){setTok(old);m.textContent=(e&&e.status===401)?'GitHub didn’t accept that key. Make a new one and paste it again.':'That key works but can’t save to '+CFG.owner+'/'+CFG.repo+'. Give it Contents: Read and write on that repo.';showStatus()});
+};
+var rmArmed=false;
+$('tokRemove').onclick=function(){var b=$('tokRemove');if(!rmArmed){rmArmed=true;b.textContent='Tap again to remove the key from this device';setTimeout(function(){rmArmed=false;b.textContent='Remove key from this device'},4000);return}
+  setTok('');rmArmed=false;b.textContent='Remove key from this device';b.hidden=true;$('tokMsg').textContent='Removed. Snaps on this device stay here and won’t sync until you add a key again.';syncErr='';showStatus()};
+pull().then(function(){if(Object.keys(dirty).length||Object.keys(delPending).length)flush()});
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible'){flush().then(pull)}});
+window.addEventListener('online',function(){flush().then(pull)});
 
 /* ---------- progress ---------- */
 var done=store.get('done',{});
@@ -668,7 +758,6 @@ document.querySelectorAll('[data-done]').forEach(function(b){b.onclick=function(
 renderDone();
 })();
 </script>
-<script>
-if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}
-</script>
-</body></html>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}</script>
+</body>
+</html>
